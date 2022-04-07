@@ -17,16 +17,31 @@ namespace QuestGame.Core
             }
         }
 
-        public IAction EntryPoint;
+        private string lastResponse = "";
+        public IAction EntryPoint { get; set; }
 
         private Player() { }
 
         public void Play(IAction subject)
         {
-            var nextAction = subject.Do(out var content);
-            Show(content);
-            if (nextAction != null) Play(nextAction);
-            else Play(EntryPoint);
+            var nextAction = subject.Do(lastResponse, out var content);
+            lastResponse = Show(content);
+
+            if (nextAction != null)
+            {
+                Play(nextAction);
+            }
+            else
+            {
+                if (EntryPoint == null)
+                {
+                    return;
+                }
+                else
+                {
+                    Play(EntryPoint);
+                }
+            }
         }
 
         private string Show(IPlayable subject)
