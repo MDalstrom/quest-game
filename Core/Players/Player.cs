@@ -17,6 +17,8 @@ namespace QuestGame.Core
             }
         }
 
+        public IAction EntryPoint;
+
         private Player() { }
 
         public void Play(IAction subject)
@@ -24,7 +26,7 @@ namespace QuestGame.Core
             var nextAction = subject.Do(out var content);
             Show(content);
             if (nextAction != null) Play(nextAction);
-            //else play entryPoint
+            else Play(EntryPoint);
         }
 
         private string Show(IPlayable subject)
