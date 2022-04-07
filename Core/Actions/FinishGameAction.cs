@@ -9,9 +9,9 @@ namespace QuestGame.Core.Actions
 
         public FinishGameAction(string title) : base(title, endPhrase) { }
 
-        public override IAction Do(out IPlayable result)
+        public override IAction Do(string arg, out IPlayable result)
         {
-            base.Do(out result);
+            base.Do(arg, out result);
             return this;
         }
     }

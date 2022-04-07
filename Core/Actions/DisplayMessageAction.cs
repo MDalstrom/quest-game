@@ -13,7 +13,7 @@ namespace QuestGame.Core.Actions
             this.message = new BaseMessage(message);
         }
 
-        public override IAction Do(out IPlayable result)
+        public override IAction Do(string arg, out IPlayable result)
         {
             result = message;
             return null;

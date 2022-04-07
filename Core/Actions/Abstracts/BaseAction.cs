@@ -12,6 +12,6 @@ namespace QuestGame.Core.Actions.Abstracts
             this.title = title;
         }
 
-        public abstract IAction Do(out IPlayable result);
+        public abstract IAction Do(string arg, out IPlayable result);
     }
 }

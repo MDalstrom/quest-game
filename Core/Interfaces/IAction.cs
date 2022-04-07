@@ -3,6 +3,6 @@
     public interface IAction
     {
         string Title { get; }
-        IAction Do(out IPlayable result);
+        IAction Do(string arg, out IPlayable result);
     }
 }

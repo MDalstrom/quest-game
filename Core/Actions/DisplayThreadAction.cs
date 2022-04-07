@@ -9,7 +9,7 @@ namespace QuestGame.Core.Actions
     {
         public DisplayThreadAction(string title, params string[] messages) : base(title)
         {
-            actions = messages.Select(x => new DisplayMessageAction("", x)).ToArray();
+            actions = messages.Select(x => new DisplayMessageAction("", x) as IAction).ToList();
         }
     }
 }
