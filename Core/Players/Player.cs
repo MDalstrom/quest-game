@@ -47,8 +47,16 @@ namespace QuestGame.Core
         private string Show(IPlayable subject)
         {
             Console.Clear();
-            Console.WriteLine(subject.Content);
-            return Console.ReadLine();
+
+            if (subject.Content is var content && content != "")
+            {
+                Console.WriteLine(subject.Content);
+                return Console.ReadLine();
+            }
+            else
+            {
+                return "";
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using QuestGame.Core.Actions.Abstracts;
 using QuestGame.Core.Interfaces;
 using QuestGame.Core.Actions.Utils;
+using QuestGame.Core.Players;
 using System.Linq;
 
 namespace QuestGame.Core.Actions
@@ -19,13 +20,14 @@ namespace QuestGame.Core.Actions
 
         public override IAction Do(string arg, out IPlayable result)
         {
-            base.Do(arg, out result);
             if (int.TryParse(arg, out var index) && index < selections.Length)
             {
+                result = new EmptyMessage();
                 return selections[index];
             }
             else
             {
+                base.Do(arg, out result);
                 return this;
             }
         }
