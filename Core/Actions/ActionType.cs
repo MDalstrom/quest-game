@@ -2,8 +2,10 @@
 {
     public enum ActionType
     {
-        DisplayMessage = 0,
-        OpenDialog = 1,
-        TransferItems = 2
+        Dialog = 0,
+        Message = 1,
+        Thread = 2,
+        EndGame = 3,
+        Transfer = 4
     }
 }
