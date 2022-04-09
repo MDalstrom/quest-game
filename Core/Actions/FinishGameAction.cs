@@ -7,7 +7,7 @@ namespace QuestGame.Core.Actions
     {
         private const string endPhrase = "Игра окончена.";
 
-        public FinishGameAction(string title) : base(title, endPhrase) { }
+        public FinishGameAction() : base(null, endPhrase) { }
 
         public override IAction Do(string arg, out IPlayable result)
         {

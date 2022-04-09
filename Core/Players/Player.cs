@@ -1,4 +1,6 @@
 ﻿using QuestGame.Core.Interfaces;
+using QuestGame.Core.Players;
+using QuestGame.Entities;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -17,11 +19,16 @@ namespace QuestGame.Core
             }
         }
 
-        private string lastResponse = "";
+        private string lastResponse;
         public IAction EntryPoint { get; set; }
 
         private Player() { }
 
+        public void Play(Room subject)
+        {
+            EntryPoint = subject.GetMenu();
+            Play(EntryPoint);
+        }
         public void Play(IAction subject)
         {
             var nextAction = subject.Do(lastResponse, out var content);
@@ -48,15 +55,10 @@ namespace QuestGame.Core
         {
             Console.Clear();
 
-            if (subject.Content is var content && content != "")
-            {
-                Console.WriteLine(subject.Content);
-                return Console.ReadLine();
-            }
-            else
-            {
-                return "";
-            }
+            if (subject is EmptyMessage) return null;
+
+            Console.WriteLine(subject.Content);
+            return Console.ReadLine();
         }
     }
 }

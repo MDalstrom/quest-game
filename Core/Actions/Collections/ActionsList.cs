@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace QuestGame.Core.Actions.Abstracts
 {
-    public abstract class ActionsList : BaseAction
+    public class ActionsList : BaseAction
     {
         protected List<IAction> actions;
         private int index = -1;
 
-        public ActionsList(string title) : base(title) { }
+        public ActionsList(string title, List<IAction> actions) : base(title) { }
 
         public override IAction Do(string arg, out IPlayable result)
         {

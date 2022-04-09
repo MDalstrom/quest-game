@@ -1,5 +1,10 @@
-﻿namespace QuestGame.Core.Interfaces
+﻿using Newtonsoft.Json;
+using QuestGame.Entities.Converters;
+using QuestGame.Core.Actions.Utils;
+
+namespace QuestGame.Core.Interfaces
 {
+    [JsonInterfaceConverter(typeof(ActionConverter))]
     public interface IAction
     {
         string Title { get; }
