@@ -12,13 +12,19 @@ namespace QuestGame.Players
     public class RoomPlayer : IPlayer
     {
         private const string callDescription = "Осмотреть комнату {0}";
+        private const string callInventory = "Просмотреть свой инвентарь";
         private readonly List<Room> rooms;
 
         public Room TargetRoom { get; set; }
         public IReadOnlyList<Room> Rooms => rooms;
+        public Inventory Inventory { get; }
 
-        public RoomPlayer(List<Room> rooms) => this.rooms = rooms;
-        public RoomPlayer(Room room) => rooms = new List<Room> { room };
+        public RoomPlayer(List<Room> rooms)
+        {
+            this.rooms = rooms;
+            Inventory = new Inventory();
+        }
+        public RoomPlayer(Room room) : this(new List<Room> { room }) { }
 
         public void Play()
         {
@@ -36,6 +42,10 @@ namespace QuestGame.Players
                 Title = string.Format(callDescription, TargetRoom.Title),
                 Actions = new List<IAction> { new ShowTextAction(TargetRoom.Description) }
                 });
+            result.Add(new Dialog { 
+                Title = callInventory,
+                Actions = new List<IAction> { new ShowInventoryAction(Inventory) }
+            });
             return result;
         }
     }

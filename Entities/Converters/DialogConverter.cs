@@ -16,8 +16,11 @@ namespace QuestGame.Entities.Converters
         private const string typeKey = "type";
         private const string roomNameKey = "roomName";
         private const string characterNameKey = "characterName";
+        private const string characterFromKey = "characterFrom";
+        private const string characterToKey = "characterTo";
         private const string dialogNameKey = "dialogName";
         private const string dialogKey = "dialog";
+        private const string itemsKey = "items";
 
         public override Dialog Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -73,6 +76,7 @@ namespace QuestGame.Entities.Converters
             }
             throw new JsonException();
         }
+
         private IAction ReadComplexAction(ref Utf8JsonReader reader, JsonSerializerOptions options)
         {
             reader.Read();
@@ -89,10 +93,13 @@ namespace QuestGame.Entities.Converters
                     return ReadRemoveDialogAction(ref reader, options);
                 case ActionType.EndGame:
                     return new EndGameAction();
+                case ActionType.Transfer:
+                    return ReadTransferItemsAction(ref reader, options);
                 default:
                     throw new JsonException("Action of invalid type");
             }
         }
+
         private AddDialogAction ReadAddDialogAction(ref Utf8JsonReader reader, JsonSerializerOptions options)
         {
             string roomName = "";
@@ -122,6 +129,7 @@ namespace QuestGame.Entities.Converters
             }
             throw new JsonException();
         }
+
         private RemoveDialogAction ReadRemoveDialogAction(ref Utf8JsonReader reader, JsonSerializerOptions options)
         {
             string roomName = "";
@@ -145,6 +153,40 @@ namespace QuestGame.Entities.Converters
                             break;
                         case dialogNameKey:
                             dialogName = reader.GetString();
+                            break;
+                    }
+                }
+            }
+            throw new JsonException();
+        }
+
+        private TransferItemsAction ReadTransferItemsAction(ref Utf8JsonReader reader, JsonSerializerOptions options)
+        {
+            string roomName = "";
+            string characterFrom = "";
+            string characterTo = "";
+            List<Item> items = null;
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonTokenType.EndObject) return new TransferItemsAction(roomName, characterFrom, characterTo, items);
+
+                if (reader.TokenType == JsonTokenType.PropertyName)
+                {
+                    var propertyName = reader.GetString();
+                    reader.Read();
+                    switch (propertyName)
+                    {
+                        case roomNameKey:
+                            roomName = reader.GetString();
+                            break;
+                        case characterFromKey:
+                            characterFrom = reader.GetString();
+                            break;
+                        case characterToKey:
+                            characterTo = reader.GetString();
+                            break;
+                        case itemsKey:
+                            items = JsonSerializer.Deserialize<List<Item>>(ref reader, options);
                             break;
                     }
                 }

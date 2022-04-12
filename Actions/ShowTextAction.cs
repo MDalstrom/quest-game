@@ -6,7 +6,7 @@ namespace QuestGame.Actions
 {
     public class ShowTextAction : BaseAction
     {
-        private string message;
+        protected string message;
         public ShowTextAction(string message) { this.message = message; }
 
         public override void Do(IPlayer player)

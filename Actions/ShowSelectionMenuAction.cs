@@ -36,6 +36,6 @@ namespace QuestGame.Actions
 
         protected virtual string GetErrorMessage() => "Ответ не распознан, попробуйте ещё раз";
         protected virtual string GetMessage() => string.Join(",\r\n", dialogs.Select(x => $"{x.Key}. {x.Value.Title}"));
-        protected virtual string GetKey(int index) => index.ToString();
+        protected virtual string GetKey(int index) => (index + 1).ToString();
     }
 }

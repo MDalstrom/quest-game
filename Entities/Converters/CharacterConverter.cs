@@ -33,6 +33,7 @@ namespace QuestGame.Entities.Converters
                             result.Name = reader.GetString();
                             break;
                         case inventoryKey:
+                            result.Inventory = new Inventory(JsonSerializer.Deserialize<List<Item>>(ref reader, options));
                             break;
                         case dialogsKey:
                             result.Dialogs = JsonSerializer.Deserialize<List<Dialog>>(ref reader, options);

@@ -4,7 +4,16 @@
   "characters": [
     {
       "name": "Бродяга",
-      "inventory": {},
+      "inventory": [
+        {
+          "title": "Медальон",
+          "count": 1
+        },
+        {
+          "title": "Монета",
+          "count": 50
+        }
+      ],
       "dialogs": [
         {
           "title": "Поговорить с бродягой",
@@ -17,6 +26,18 @@
                 "actions": [
                   "Бродяга: Я теперь умру с голоду",
                   "Бродяга отдает вам свои вещи",
+                  {
+                    "type": "Transfer",
+                    "roomName": "Таверна",
+                    "characterFrom": "Бродяга",
+                    "characterTo": "player",
+                    "items": [
+                      {
+                        "title": "all",
+                        "count": 0
+                      }
+                    ]
+                  },
                   {
                     "type": "RemoveDialog",
                     "roomName": "Таверна",
