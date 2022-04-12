@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuestGame.Entities.Converters
+namespace QuestGame.Entities.Models
 {
-    class ActionsListConverter
+    public class Inventory
     {
     }
 }

@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using QuestGame.Core.Interfaces;
 using QuestGame.Items.Interfaces;
-using QuestGame.Core.Actions;
-using QuestGame.Core.Actions.Abstracts;
-using QuestGame.Entities;
+using QuestGame.Entities.Models;
 
 namespace QuestGame.Entities.Converters
 {
+    [JsonConverter(typeof(Character))]
     public class CharacterConverter : JsonConverter<Character>
     {
         private const string nameKey = "name";
@@ -18,40 +16,37 @@ namespace QuestGame.Entities.Converters
 
         public override Character Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            var name = "";
-            List<ISlotItem> inventory = null;
-            List<IAction> dialogs = null;
-
+            var result = new Character();
+            var endDepth = reader.CurrentDepth;
+            var endToken = reader.TokenType == JsonTokenType.StartArray ? JsonTokenType.EndArray : JsonTokenType.EndObject;
             while (reader.Read())
             {
-                Console.WriteLine($"(character) {reader.TokenType}");
-                switch (reader.TokenType)
+                if (reader.CurrentDepth == endDepth && reader.TokenType == endToken) return result;
+                
+                if (reader.TokenType == JsonTokenType.PropertyName)
                 {
-                    case JsonTokenType.PropertyName:
-                        var propertyName = reader.GetString();
-                        reader.Read();
-                        switch (propertyName)
-                        {
-                            case nameKey:
-                                name = reader.GetString();
-                                break;
-                            case inventoryKey:
-                                inventory = JsonSerializer.Deserialize<List<ISlotItem>>(ref reader, options);
-                                break;
-                            case dialogsKey:
-                                dialogs = JsonSerializer.Deserialize<List<IAction>>(ref reader, options);
-                                break;
-                        }
-                        break;
+                    var propertyName = reader.GetString();
+                    reader.Read();
+                    switch (propertyName)
+                    {
+                        case nameKey:
+                            result.Name = reader.GetString();
+                            break;
+                        case inventoryKey:
+                            break;
+                        case dialogsKey:
+                            result.Dialogs = JsonSerializer.Deserialize<List<Dialog>>(ref reader, options);
+                            break;
+                    }
                 }
             }
-
-            return new Character(name, dialogs, inventory);
+            throw new JsonException();
         }
 
         public override void Write(Utf8JsonWriter writer, Character value, JsonSerializerOptions options)
         {
-            throw new NotImplementedException();
+            writer.WriteString(nameKey, value.Name);
+            writer.WriteString(dialogsKey, JsonSerializer.Serialize(value.Dialogs));
         }
     }
 }

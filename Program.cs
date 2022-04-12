@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.IO;
-using QuestGame.Core;
-using QuestGame.Core.Actions;
-using QuestGame.Core.Interfaces;
-using QuestGame.Entities;
+using System.Text.Json;
+using System.Collections.Generic;
+using QuestGame.Actions;
+using QuestGame.Entities.Models;
+using QuestGame.Players;
 
 namespace QuestGame
 {
@@ -16,11 +15,10 @@ namespace QuestGame
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             var testData = File.ReadAllText("e://kill-me/quest-game/Data/brawl-test.json");
-            var room = JsonSerializer.Deserialize<Room>(testData);
+            var subject = JsonSerializer.Deserialize<Room>(testData);
 
-            //Player.Instance.Play(room);
-
-            Console.ReadLine();
+            var player = new RoomPlayer(subject);
+            player.Play();
         }
     }
 }

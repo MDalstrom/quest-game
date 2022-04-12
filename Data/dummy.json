@@ -8,15 +8,17 @@
       "dialogs": [
         {
           "title": "talk to person",
-          "actions": [ "person refuses to talk" ]
+          "actions": [
+            "person refuses to talk",
+            "2",
+            "3"
+          ]
         },
         {
           "title": "ignore person",
           "actions": [
             "person stares at you",
-            "then he raises his hand up, you see a knife in it",
-            "murder.",
-            -1
+            false
           ]
         }
       ]
